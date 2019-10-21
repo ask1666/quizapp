@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_main">
+
+    <TextView
+        android:id="@+id/createQuizTitle"
+        android:layout_width="190dp"
+        android:layout_height="50dp"
+        android:fontFamily="serif"
+        android:text="@string/createquiz"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/CreateQuizTitleText"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:text="Enter Title:"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.34" />
+
+    <EditText
+        android:id="@+id/CreateQuizInput"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="#DCFFFFFF"
+        android:ems="10"
+        android:hint="Enter Title"
+        android:inputType="textPersonName"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        android:textColorHint="#333030"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.40" />
+
+    <Button
+        android:id="@+id/CreateQuizButton"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="#B42B2727"
+        android:text="Create Quiz And Add Questions"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/CreateQuizCancelBtn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="#B42B2727"
+        android:text="@android:string/cancel"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
