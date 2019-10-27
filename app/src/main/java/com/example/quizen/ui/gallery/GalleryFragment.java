@@ -28,31 +28,38 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizen.MainActivity;
 import com.example.quizen.R;
 import com.example.quizen.data.Quiz;
+import com.example.quizen.ui.DisplayQuiz.DisplayQuizFragment;
 import com.example.quizen.ui.home.HomeFragment;
+import com.example.quizen.ui.login.LoginFragment;
 
 import java.util.List;
 
 public class GalleryFragment extends Fragment {
 
     private static GalleryViewModel model;
-    private static RecyclerView view;
+    private static RecyclerView recyclerView;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = (RecyclerView) inflater.inflate(R.layout.fragment_gallery, container, false);
-        view.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_gallery, container, false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         model = ViewModelProviders.of(this.getActivity()).get(GalleryViewModel.class);
 
-        model.getQuizList().observe(getViewLifecycleOwner(), quiz ->
-                view.setAdapter(new QuizRecyclerViewAdapter(quiz)));
+        model.getQuizList().observe(getViewLifecycleOwner(), quiz -> {
+            recyclerView.setAdapter(new QuizRecyclerViewAdapter(quiz));
 
-        return view;
+        });
+
+        return recyclerView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        super.onViewCreated((RecyclerView) view, savedInstanceState);
+
 
     }
+
 
     @Override
     public void onDestroy() {

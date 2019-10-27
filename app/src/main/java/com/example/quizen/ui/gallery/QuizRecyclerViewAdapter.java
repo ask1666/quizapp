@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -18,7 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizen.MainActivity;
 import com.example.quizen.R;
 import com.example.quizen.data.Quiz;
+import com.example.quizen.ui.DisplayQuiz.DisplayQuizFragment;
+import com.example.quizen.ui.DisplayQuiz.DisplayQuizViewModel;
 import com.example.quizen.ui.home.HomeFragment;
+import com.example.quizen.ui.login.LoginFragment;
 
 
 import java.util.List;
@@ -27,6 +31,8 @@ public class QuizRecyclerViewAdapter extends RecyclerView.Adapter<QuizRecyclerVi
 
     private List<Quiz> mData;
     GalleryViewModel model;
+    DisplayQuizViewModel displayModel;
+    DisplayQuizFragment displayQuizFragment;
 
 
     public QuizRecyclerViewAdapter(List<Quiz> items) {
@@ -48,14 +54,21 @@ public class QuizRecyclerViewAdapter extends RecyclerView.Adapter<QuizRecyclerVi
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.quiz = mData.get(position);
         holder.quizTitle.setText(mData.get(position).getName());
-        holder.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                model.deleteItem(holder.quizTitle.getText().toString());
-            }
+        holder.image.setOnClickListener(view -> model.deleteItem(holder.quizTitle.getText().toString()));
+        holder.quizTitle.setOnClickListener( view -> {
+            displayQuizFragment = new DisplayQuizFragment();
+            displayQuizFragment.setSelectedQuiz(holder.quiz);
+            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.nav_host_fragment, displayQuizFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         });
-        holder.quizTitle.setOnClickListener(v -> model.setSelected(holder.quiz));
+
     }
+
+
 
     // total number of rows
     @Override

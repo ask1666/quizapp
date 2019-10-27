@@ -18,12 +18,6 @@
         tools:layout="@layout/fragment_login" />
 
     <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.example.quizen.ui.tools.ToolsFragment"
-        android:label="Quizen"
-        tools:layout="@layout/fragment_tools" />
-
-    <fragment
         android:id="@+id/nav_createUser"
         android:name="com.example.quizen.ui.createuser.CreateUserFragment"
         android:label="Quizen"
