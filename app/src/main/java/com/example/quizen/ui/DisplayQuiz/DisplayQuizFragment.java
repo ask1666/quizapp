@@ -67,7 +67,7 @@ public class DisplayQuizFragment extends Fragment {
         quizTitle.setText(quiz.getName());
         addQuestionButton.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Title");
+            builder.setTitle("Add Question");
 
             final LinearLayout linearLayout = new LinearLayout(getContext());
             linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -75,7 +75,10 @@ public class DisplayQuizFragment extends Fragment {
             EditText rightAnswer = new EditText(getContext());
             EditText answer2 = new EditText(getContext());
             EditText answer3 = new EditText(getContext());
-            theQuestion.setInputType(InputType.TYPE_CLASS_TEXT);
+            theQuestion.setHint("Enter a question.");
+            rightAnswer.setHint("Enter the correct answer.");
+            answer2.setHint("Enter a filler answer");
+            answer3.setHint("Enter another filler answer");
             linearLayout.addView(theQuestion);
             linearLayout.addView(rightAnswer);
             linearLayout.addView(answer2);
