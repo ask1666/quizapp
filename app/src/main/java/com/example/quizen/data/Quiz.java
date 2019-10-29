@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -22,12 +23,18 @@ public class Quiz {
 
         this.userid = job.getString("userid");
         this.name = job.getString("name");
+        this.questions = new ArrayList<>();
 
         if (job.has("questions")) {
             JSONArray questions = job.getJSONArray("questions");
+
             for (int i=0; i < questions.length(); i++) {
+
+
                 this.questions.add(new Question(questions.getJSONObject(i)));
+
             }
+            System.out.println(this.questions);
         }
 
     }

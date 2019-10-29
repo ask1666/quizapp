@@ -10,18 +10,37 @@ import lombok.NoArgsConstructor;
 public class Question {
 
     String question;
-    String answer;
+    String rightAnswer;
+    String answer2;
+    String answer3;
 
 
     public Question(JSONObject job) throws JSONException {
 
         this.question = job.getString("question");
-        this.answer = job.getString("answer");
+        this.rightAnswer = job.getString("rightAnswer");
+        this.answer2 = job.getString("answer2");
+        this.answer3 = job.getString("answer3");
+
     }
 
-    public Question(String question, String answer) {
+    public Question(String question, String rightAnswer, String answer2, String answer3) {
         this.question = question;
-        this.answer = answer;
+        this.rightAnswer = rightAnswer;
+        this.answer2 = answer2;
+        this.answer3 = answer3;
+    }
+
+    public String getRightAnswer() {
+        return rightAnswer;
+    }
+
+    public String getAnswer2() {
+        return answer2;
+    }
+
+    public String getAnswer3() {
+        return answer3;
     }
 
     public String getQuestion() {

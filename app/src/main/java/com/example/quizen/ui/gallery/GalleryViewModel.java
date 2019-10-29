@@ -83,12 +83,12 @@ public class GalleryViewModel extends AndroidViewModel {
                         return "Success";
                     }
                     System.err.println(c.getResponseCode());
-                    return "Error logging in " + c.getResponseMessage();
+                    return "Error deleting quiz " + c.getResponseMessage();
 
 
                 } catch(Exception e){
                     System.err.println("Failed to call " + e);
-                    return new IOException("Error logging in", e).toString();
+                    return new IOException("Error deleting quiz", e).toString();
                 } finally{
                     if (c != null) c.disconnect();
                 }
