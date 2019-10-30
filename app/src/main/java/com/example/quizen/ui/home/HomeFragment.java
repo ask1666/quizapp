@@ -39,30 +39,33 @@ public class HomeFragment extends Fragment {
         Button createQuizBtn = root.findViewById(R.id.CreateQuizBtn);
         Button createUserBtn = root.findViewById(R.id.CreateUserBtn);
         loginBtn.setOnClickListener(view -> {
-            Fragment fragment = new LoginFragment();
+            LoginFragment fragment = new LoginFragment();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
             fragmentTransaction.addToBackStack(null);
+            fragmentManager.popBackStack();
             fragmentTransaction.commit();
         });
 
         displayQuizBtn.setOnClickListener(view -> {
-            Fragment fragment = new GalleryFragment();
+            GalleryFragment fragment = new GalleryFragment();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
             fragmentTransaction.addToBackStack(null);
+            fragmentManager.popBackStack();
             fragmentTransaction.commit();
         });
 
         createQuizBtn.setOnClickListener(view -> {
             if (MainActivity.loggedInUser != null) {
-                Fragment fragment = new CreateQuizFragment();
+                CreateQuizFragment fragment = new CreateQuizFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
                 fragmentTransaction.addToBackStack(null);
+                fragmentManager.popBackStack();
                 fragmentTransaction.commit();
             } else {
                 new AlertDialog.Builder(getContext())
@@ -72,11 +75,12 @@ public class HomeFragment extends Fragment {
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
                         .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                            Fragment fragment = new LoginFragment();
+                            LoginFragment fragment = new LoginFragment();
                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
                             fragmentTransaction.addToBackStack(null);
+                            fragmentManager.popBackStack();
                             fragmentTransaction.commit();
                         })
 
@@ -88,11 +92,12 @@ public class HomeFragment extends Fragment {
         });
 
         createUserBtn.setOnClickListener(view -> {
-            Fragment fragment = new CreateUserFragment();
+            CreateUserFragment fragment = new CreateUserFragment();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
             fragmentTransaction.addToBackStack(null);
+            fragmentManager.popBackStack();
             fragmentTransaction.commit();
         });
 

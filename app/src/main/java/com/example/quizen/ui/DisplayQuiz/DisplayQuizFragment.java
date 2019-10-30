@@ -1,7 +1,10 @@
 package com.example.quizen.ui.DisplayQuiz;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
@@ -15,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.InputFilter;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -38,6 +42,7 @@ import com.example.quizen.R;
 import com.example.quizen.data.Question;
 import com.example.quizen.data.Quiz;
 import com.example.quizen.ui.gallery.GalleryViewModel;
+import com.example.quizen.ui.startquiz.StartQuizFragment;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -51,7 +56,7 @@ public class DisplayQuizFragment extends Fragment {
 
     private DisplayQuizViewModel mViewModel;
     GalleryViewModel galleryViewModel;
-    Quiz quiz;
+    public static Quiz quiz;
     TextView quizTitle;
     LinearLayout myLinearLayout;
     Button addQuestionButton;
@@ -76,6 +81,7 @@ public class DisplayQuizFragment extends Fragment {
             EditText answer2 = new EditText(getContext());
             EditText answer3 = new EditText(getContext());
             theQuestion.setHint("Enter a question.");
+            theQuestion.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
             rightAnswer.setHint("Enter the correct answer.");
             answer2.setHint("Enter a filler answer");
             answer3.setHint("Enter another filler answer");
@@ -85,7 +91,7 @@ public class DisplayQuizFragment extends Fragment {
             linearLayout.addView(answer3);
             builder.setView(linearLayout);
 
-            // Set up the buttons
+
             builder.setPositiveButton("OK", (dialog, which) -> {
                 Question question = new Question(theQuestion.getText().toString(), rightAnswer.getText().toString(),
                         answer2.getText().toString(), answer3.getText().toString());
@@ -98,7 +104,13 @@ public class DisplayQuizFragment extends Fragment {
         });
 
         startButton.setOnClickListener(view -> {
-
+            StartQuizFragment startQuizFragment = new StartQuizFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.nav_host_fragment, startQuizFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentManager.popBackStack();
+            fragmentTransaction.commit();
         });
 
         if (quiz.getQuestions() != null) {
@@ -110,7 +122,7 @@ public class DisplayQuizFragment extends Fragment {
                 final TextView rowTextView = new TextView(getContext());
 
 
-                deleteImage.setImageResource(R.drawable.ic_delete);
+                deleteImage.setImageResource(android.R.drawable.ic_menu_delete);
                 LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 

@@ -28,4 +28,24 @@
         android:name="com.example.quizen.ui.createquiz.CreateQuizFragment"
         android:label="Quizen"
         tools:layout="@layout/fragment_createquiz" />
+    <fragment
+        android:id="@+id/createQuestionFragment"
+        android:name="com.example.quizen.ui.createquestion.CreateQuestionFragment"
+        android:label="fragment_createquestion"
+        tools:layout="@layout/fragment_createquestion" />
+    <fragment
+        android:id="@+id/displayQuizFragment"
+        android:name="com.example.quizen.ui.DisplayQuiz.DisplayQuizFragment"
+        android:label="fragment_displayquiz"
+        tools:layout="@layout/fragment_displayquiz" />
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.example.quizen.ui.gallery.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" />
+    <fragment
+        android:id="@+id/startQuizFragment"
+        android:name="com.example.quizen.ui.startquiz.StartQuizFragment"
+        android:label="start_quiz_fragment"
+        tools:layout="@layout/start_quiz_fragment" />
 </navigation>
