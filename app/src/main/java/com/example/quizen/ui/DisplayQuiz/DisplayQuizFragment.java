@@ -219,7 +219,7 @@ public class DisplayQuizFragment extends Fragment {
 
                 {
 
-                    URL url = new URL("http://10.0.0.9:8080/QuizApp/api/quizapp/createquestion?question=" + question.getQuestion() + "&rightAnswer=" + question.getRightAnswer() + "&answer2=" + question.getAnswer2() + "&answer3=" + question.getAnswer3() + "&quiz=" + quiz1);
+                    URL url = new URL("http://158.38.101.126:8080/api/quizapp/createquestion?question=" + question.getQuestion() + "&rightAnswer=" + question.getRightAnswer() + "&answer2=" + question.getAnswer2() + "&answer3=" + question.getAnswer3() + "&quiz=" + quiz1);
                     c = (HttpURLConnection) url.openConnection();
                     c.setUseCaches(true);
                     c.setRequestMethod("GET");
@@ -260,7 +260,7 @@ public class DisplayQuizFragment extends Fragment {
 
                 {
 
-                    URL url = new URL("http://10.0.0.9:8080/QuizApp/api/quizapp/deletequestion?question=" + question + "&quiz=" + quiz.getName());
+                    URL url = new URL("http://158.38.101.126:8080/api/quizapp/deletequestion?question=" + question + "&quiz=" + quiz.getName());
                     c = (HttpURLConnection) url.openConnection();
                     c.setUseCaches(true);
                     c.setRequestMethod("DELETE");

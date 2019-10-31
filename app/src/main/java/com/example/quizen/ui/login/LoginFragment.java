@@ -88,7 +88,7 @@ public class LoginFragment extends Fragment {
         final String username = usernameInput.getText().toString();
         final String password = passwordInput.getText().toString();
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        String url ="http://10.0.0.9:8080/QuizApp/api/quizapp/login";
+        String url ="http://158.38.101.126:8080/api/quizapp/login";
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,

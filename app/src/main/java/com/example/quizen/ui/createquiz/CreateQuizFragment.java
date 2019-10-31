@@ -90,7 +90,7 @@ public class CreateQuizFragment extends Fragment {
 
                 {
 
-                    URL url = new URL("http://10.0.0.9:8080/QuizApp/api/quizapp/createquiz?name=" + quizTitle + "&username=" + loggedInUser);
+                    URL url = new URL("http://158.38.101.126:8080/api/quizapp/createquiz?name=" + quizTitle + "&username=" + loggedInUser);
                     c = (HttpURLConnection) url.openConnection();
                     c.setUseCaches(true);
                     c.setRequestMethod("GET");
