@@ -34,7 +34,7 @@ import static java.security.AccessController.getContext;
 
 public class GalleryViewModel extends AndroidViewModel {
 
-    MutableLiveData<List<Quiz>> quizList;
+    MutableLiveData<List<Quiz>> quizList = new MutableLiveData<>();
     MutableLiveData<Quiz> selected = new MutableLiveData<>();
     public static Boolean  dataChanged = false;
 
@@ -46,15 +46,9 @@ public class GalleryViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Quiz>> getQuizList() {
-        if (quizList == null) {
-            quizList = new MutableLiveData<>();
-            loadQuiz();
 
-        } else if (dataChanged) {
-            quizList = new MutableLiveData<>();
-            loadQuiz();
-        }
-        System.out.println(quizList.getValue());
+        loadQuiz();
+        System.out.println("GalleryViewModel = " + quizList.getValue());
 
 
         return quizList;
@@ -111,12 +105,13 @@ public class GalleryViewModel extends AndroidViewModel {
         this.selected.setValue(selected);
     }
 
-    protected void loadQuiz() {
+    public void loadQuiz() {
 
         String url = "http://10.0.0.9:8080/QuizApp/api/quizapp/getallquiz";
         JsonArrayRequest jar = new JsonArrayRequest(Request.Method.GET,url,null,
                 response -> {
                     List<Quiz> Quizes = new ArrayList<>();
+
                     try {
                         for (int i = 0; i < response.length(); i++) {
                             Quizes.add(new Quiz(response.getJSONObject(i)));

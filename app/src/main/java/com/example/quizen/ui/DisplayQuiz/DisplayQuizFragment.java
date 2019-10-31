@@ -3,8 +3,10 @@ package com.example.quizen.ui.DisplayQuiz;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
@@ -36,6 +38,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.quizen.R;
@@ -44,10 +47,13 @@ import com.example.quizen.data.Quiz;
 import com.example.quizen.ui.gallery.GalleryViewModel;
 import com.example.quizen.ui.startquiz.StartQuizFragment;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +63,8 @@ public class DisplayQuizFragment extends Fragment {
     private DisplayQuizViewModel mViewModel;
     GalleryViewModel galleryViewModel;
     public static Quiz quiz;
+    public static String quizTitlee;
+    private List<Quiz> quizList;
     TextView quizTitle;
     LinearLayout myLinearLayout;
     Button addQuestionButton;
@@ -65,11 +73,22 @@ public class DisplayQuizFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_displayquiz, container, false);
+        galleryViewModel = ViewModelProviders.of(this.getActivity()).get(GalleryViewModel.class);
+        quizList = galleryViewModel.getQuizList().getValue();
+        System.out.println(quizList);
+        if (quizList != null) {
+            for (int i = 0; i < quizList.size(); i++) {
+                if (quizList.get(i).getName().equals(quizTitlee)) {
+                    quiz = quizList.get(i);
+                    System.out.println("alksdløajksd  ===" + quiz);
+                }
+            }
+        }
         quizTitle = root.findViewById(R.id.DisplayQuizTitle);
         myLinearLayout = root.findViewById(R.id.myLinearLayout);
         addQuestionButton = root.findViewById(R.id.CreateQuestionButton);
         startButton = root.findViewById(R.id.StartQuizButton);
-        quizTitle.setText(quiz.getName());
+        quizTitle.setText(quizTitlee);
         addQuestionButton.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Add Question");
@@ -96,6 +115,12 @@ public class DisplayQuizFragment extends Fragment {
                 Question question = new Question(theQuestion.getText().toString(), rightAnswer.getText().toString(),
                         answer2.getText().toString(), answer3.getText().toString());
                 addQuestion(question);
+                quiz.addQuestion(question);
+                System.out.println(quiz.getQuestions());
+                updateLayout();
+
+
+
 
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -112,6 +137,21 @@ public class DisplayQuizFragment extends Fragment {
             fragmentManager.popBackStack();
             fragmentTransaction.commit();
         });
+
+        updateLayout();
+
+
+
+        return root;
+    }
+
+    //public void setSelectedQuiz(Quiz quiz) {
+     //   this.quiz = quiz;
+
+   // }
+
+    public void updateLayout() {
+        myLinearLayout.removeAllViews();
 
         if (quiz.getQuestions() != null) {
             final TextView[] myTextViews = new TextView[quiz.getQuestions().size()]; // create an empty array;
@@ -130,8 +170,9 @@ public class DisplayQuizFragment extends Fragment {
                 deleteImage.setLayoutParams(layoutParams1);
                 deleteImage.setBackgroundColor(getResources().getColor(R.color.black));
 
+
                 rowTextView.setText(quiz.getQuestions().get(i).getQuestion());
-                rowTextView.setWidth(400 * ( getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+                rowTextView.setWidth(280 * ( getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
                 rowTextView.setHeight(50 * ( getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
                 rowTextView.setBackgroundColor(getResources().getColor(R.color.white));
                 rowTextView.setTextColor(getResources().getColor(R.color.black));
@@ -140,7 +181,20 @@ public class DisplayQuizFragment extends Fragment {
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                layoutParams.setMargins(150, 20, 30, 0);
+                layoutParams.setMargins(150, 50, 30, 0);
+
+                deleteImage.setOnClickListener(view -> {
+                    deleteQuestion(rowTextView.getText().toString());
+                    myLinearLayout.removeView(layout);
+                    for (int ii = 0; ii < quiz.getQuestions().size(); ii++) {
+                        if (quiz.getQuestions().get(ii).getQuestion().equals(rowTextView.getText().toString()))
+                        quiz.removeQuestion(quiz.getQuestions().get(ii));
+                    }
+                    System.out.println(quiz.getQuestions());
+
+
+                });
+
                 layout.setOrientation(LinearLayout.HORIZONTAL);
 
                 // add the textview to the linearlayout
@@ -152,20 +206,11 @@ public class DisplayQuizFragment extends Fragment {
                 myTextViews[i] = rowTextView;
             }
         }
-
-
-
-        return root;
-    }
-
-    public void setSelectedQuiz(Quiz quiz) {
-        this.quiz = quiz;
-
     }
 
     @SuppressLint("StaticFieldLeak")
     public void addQuestion(Question question) {
-        String quiz = this.quiz.getName();
+        String quiz1 = quiz.getName();
         new AsyncTask<Void, Void, String>() {
             HttpURLConnection c = null;
             @Override
@@ -173,8 +218,8 @@ public class DisplayQuizFragment extends Fragment {
                 try
 
                 {
-                    System.out.println("This is it: " + quiz);
-                    URL url = new URL("http://10.0.0.9:8080/QuizApp/api/quizapp/createquestion?question=" + question.getQuestion() + "&rightAnswer=" + question.getRightAnswer() + "&answer2=" + question.getAnswer2() + "&answer3=" + question.getAnswer3() + "&quiz=" + quiz);
+
+                    URL url = new URL("http://10.0.0.9:8080/QuizApp/api/quizapp/createquestion?question=" + question.getQuestion() + "&rightAnswer=" + question.getRightAnswer() + "&answer2=" + question.getAnswer2() + "&answer3=" + question.getAnswer3() + "&quiz=" + quiz1);
                     c = (HttpURLConnection) url.openConnection();
                     c.setUseCaches(true);
                     c.setRequestMethod("GET");
@@ -200,7 +245,53 @@ public class DisplayQuizFragment extends Fragment {
 
 
         }.execute();
+        GalleryViewModel.dataChanged = true;
+
+
     }
+
+    @SuppressLint("StaticFieldLeak")
+    public void deleteQuestion (String question) {
+        new AsyncTask<Void, Void, String>() {
+            HttpURLConnection c = null;
+            @Override
+            protected String doInBackground(Void... voids) {
+                try
+
+                {
+
+                    URL url = new URL("http://10.0.0.9:8080/QuizApp/api/quizapp/deletequestion?question=" + question + "&quiz=" + quiz.getName());
+                    c = (HttpURLConnection) url.openConnection();
+                    c.setUseCaches(true);
+                    c.setRequestMethod("DELETE");
+
+
+                    if (c.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+                        System.out.println(c.getResponseCode());
+                        return "Success";
+                    }
+                    System.err.println(c.getResponseCode());
+                    return "Error deleting question " + c.getResponseMessage();
+
+
+                } catch(Exception e){
+                    System.err.println("Failed to call " + e);
+                    return new IOException("Error deleting question", e).toString();
+                } finally{
+                    if (c != null) c.disconnect();
+                }
+
+            }
+
+
+        }.execute();
+        GalleryViewModel.dataChanged = true;
+
+
+    }
+
+
 
 
 

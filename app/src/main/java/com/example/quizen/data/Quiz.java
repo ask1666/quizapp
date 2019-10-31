@@ -43,6 +43,14 @@ public class Quiz {
         return questions;
     }
 
+    public void addQuestion(Question question) {
+        questions.add(question);
+    }
+
+    public void removeQuestion(Question question) {
+        questions.remove(question);
+    }
+
     public Quiz(String name, List<Question> questions) {
         this.name = name;
         this.questions = questions;

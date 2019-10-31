@@ -57,7 +57,7 @@ public class QuizRecyclerViewAdapter extends RecyclerView.Adapter<QuizRecyclerVi
         holder.image.setOnClickListener(view -> model.deleteItem(holder.quizTitle.getText().toString()));
         holder.quizTitle.setOnClickListener( view -> {
             displayQuizFragment = new DisplayQuizFragment();
-            displayQuizFragment.setSelectedQuiz(holder.quiz);
+            displayQuizFragment.quizTitlee = holder.quizTitle.getText().toString();
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
             FragmentManager fragmentManager = activity.getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
