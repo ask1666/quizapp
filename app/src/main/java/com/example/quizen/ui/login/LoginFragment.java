@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -64,8 +65,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
             login(usernameInput, passwordInput);
-            getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new HomeFragment()).commit();
-            MainActivity.loggedInUser = usernameInput.getText().toString();
+
             }
         });
 
@@ -96,13 +96,21 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", response);
-
+                        getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new HomeFragment()).commit();
+                        MainActivity.loggedInUser = usernameInput.getText().toString();
+                        MainActivity.setToolbarText();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 Log.d("Error", error.toString());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("No User with that Password!");
+                builder.setPositiveButton("OK", (dialog,which) -> {
+                    dialog.cancel();
+                });
+                builder.show();
             }
         }) {
             @Override
@@ -115,6 +123,7 @@ public class LoginFragment extends Fragment {
         };
 
         queue.add(stringRequest);
+
 
 
     }

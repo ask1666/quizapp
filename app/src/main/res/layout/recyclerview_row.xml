@@ -9,7 +9,7 @@
         android:layout_width="300dp"
         android:layout_height="35dp"
         android:layout_margin="16dp"
-        android:background="#FFFFFF"
+        android:background="#9BD3A7"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textColor="#000000"

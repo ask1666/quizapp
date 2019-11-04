@@ -60,4 +60,6 @@ public class Quiz {
         return name;
     }
 
+    public String getUserid() {return userid;}
+
 }

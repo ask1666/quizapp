@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -54,7 +55,19 @@ public class QuizRecyclerViewAdapter extends RecyclerView.Adapter<QuizRecyclerVi
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.quiz = mData.get(position);
         holder.quizTitle.setText(mData.get(position).getName());
-        holder.image.setOnClickListener(view -> model.deleteItem(holder.quizTitle.getText().toString()));
+        holder.image.setOnClickListener(view -> {
+            if (MainActivity.loggedInUser.equals(holder.quiz.getUserid())) {
+                model.deleteItem(holder.quizTitle.getText().toString());
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(holder.context);
+                builder.setTitle("You are not logged in!");
+                builder.setPositiveButton("Ok", (dialog, which) -> {
+                    dialog.cancel();
+                });
+
+                builder.show();
+            }
+        });
         holder.quizTitle.setOnClickListener( view -> {
             displayQuizFragment = new DisplayQuizFragment();
             displayQuizFragment.quizTitlee = holder.quizTitle.getText().toString();
@@ -82,11 +95,13 @@ public class QuizRecyclerViewAdapter extends RecyclerView.Adapter<QuizRecyclerVi
         public final TextView quizTitle;
         public final ImageView image;
         public Quiz quiz;
+        public Context context;
 
         ViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.DeleteQuiz);
             quizTitle = itemView.findViewById(R.id.Quiz);
+            context = itemView.getContext();
         }
     }
 

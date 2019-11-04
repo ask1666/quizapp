@@ -1,5 +1,6 @@
 package com.example.quizen.ui.DisplayQuiz;
 
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -31,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -41,10 +43,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.quizen.MainActivity;
 import com.example.quizen.R;
 import com.example.quizen.data.Question;
 import com.example.quizen.data.Quiz;
+import com.example.quizen.data.User;
 import com.example.quizen.ui.gallery.GalleryViewModel;
+import com.example.quizen.ui.login.LoginFragment;
 import com.example.quizen.ui.startquiz.StartQuizFragment;
 
 import org.json.JSONException;
@@ -90,42 +95,76 @@ public class DisplayQuizFragment extends Fragment {
         startButton = root.findViewById(R.id.StartQuizButton);
         quizTitle.setText(quizTitlee);
         addQuestionButton.setOnClickListener(view -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Add Question");
+            if (!MainActivity.loggedInUser.equals("User")) {
+                if (!MainActivity.loggedInUser.equals(quiz.getUserid())) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("You cannot modify quiz made by another user!");
+                    builder.setPositiveButton("Log in", (dialog, which) -> {
+                        LoginFragment loginFragment = new LoginFragment();
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.nav_host_fragment, loginFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentManager.popBackStack();
+                        fragmentTransaction.commit();
+                    });
+                    builder.setNegativeButton("Cancel", (dialog, which) -> {
+                        dialog.cancel();
+                    });
+                    builder.show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Add Question");
 
-            final LinearLayout linearLayout = new LinearLayout(getContext());
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-            EditText theQuestion = new EditText(getContext());
-            EditText rightAnswer = new EditText(getContext());
-            EditText answer2 = new EditText(getContext());
-            EditText answer3 = new EditText(getContext());
-            theQuestion.setHint("Enter a question.");
-            theQuestion.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
-            rightAnswer.setHint("Enter the correct answer.");
-            answer2.setHint("Enter a filler answer");
-            answer3.setHint("Enter another filler answer");
-            linearLayout.addView(theQuestion);
-            linearLayout.addView(rightAnswer);
-            linearLayout.addView(answer2);
-            linearLayout.addView(answer3);
-            builder.setView(linearLayout);
+                    final LinearLayout linearLayout = new LinearLayout(getContext());
+                    linearLayout.setOrientation(LinearLayout.VERTICAL);
+                    EditText theQuestion = new EditText(getContext());
+                    EditText rightAnswer = new EditText(getContext());
+                    EditText answer2 = new EditText(getContext());
+                    EditText answer3 = new EditText(getContext());
+                    theQuestion.setHint("Enter a question.");
+                    theQuestion.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
+                    rightAnswer.setHint("Enter the correct answer.");
+                    answer2.setHint("Enter a filler answer");
+                    answer3.setHint("Enter another filler answer");
+                    linearLayout.addView(theQuestion);
+                    linearLayout.addView(rightAnswer);
+                    linearLayout.addView(answer2);
+                    linearLayout.addView(answer3);
+                    builder.setView(linearLayout);
 
 
-            builder.setPositiveButton("OK", (dialog, which) -> {
-                Question question = new Question(theQuestion.getText().toString(), rightAnswer.getText().toString(),
-                        answer2.getText().toString(), answer3.getText().toString());
-                addQuestion(question);
-                quiz.addQuestion(question);
-                System.out.println(quiz.getQuestions());
-                updateLayout();
+                    builder.setPositiveButton("OK", (dialog, which) -> {
+                        Question question = new Question(theQuestion.getText().toString(), rightAnswer.getText().toString(),
+                                answer2.getText().toString(), answer3.getText().toString());
+                        addQuestion(question);
+                        quiz.addQuestion(question);
+                        System.out.println(quiz.getQuestions());
+                        updateLayout();
 
 
+                    });
+                    builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
-
-            });
-            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-
-            builder.show();
+                    builder.show();
+                }
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("You need to log in to do that!");
+                builder.setPositiveButton("Log in", (dialog, which) -> {
+                    LoginFragment loginFragment = new LoginFragment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.nav_host_fragment, loginFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentManager.popBackStack();
+                    fragmentTransaction.commit();
+                });
+                builder.setNegativeButton("Cancel", (dialog, which) -> {
+                   dialog.cancel();
+                });
+                builder.show();
+            }
         });
 
         startButton.setOnClickListener(view -> {
@@ -166,37 +205,71 @@ public class DisplayQuizFragment extends Fragment {
                 LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                layoutParams1.setMargins(30, 0, 0, 0);
+                layoutParams1.setMargins(10, 0, 0, 0);
                 deleteImage.setLayoutParams(layoutParams1);
                 deleteImage.setBackgroundColor(getResources().getColor(R.color.black));
 
-
                 rowTextView.setText(quiz.getQuestions().get(i).getQuestion());
                 rowTextView.setWidth(280 * ( getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
-                rowTextView.setHeight(50 * ( getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
-                rowTextView.setBackgroundColor(getResources().getColor(R.color.white));
-                rowTextView.setTextColor(getResources().getColor(R.color.black));
+                //rowTextView.setHeight(50 * ( getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+                rowTextView.setBackgroundColor(getResources().getColor(R.color.black));
+                rowTextView.setTextColor(getResources().getColor(R.color.white));
                 rowTextView.setTextSize(24);
                 rowTextView.setTypeface(rowTextView.getTypeface(), Typeface.BOLD_ITALIC);
+                LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams2.setMargins(0,0,0,0);
+                rowTextView.setLayoutParams(layoutParams2);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                layoutParams.setMargins(150, 50, 30, 0);
+                layoutParams.setMargins(100, 50, 30, 0);
 
                 deleteImage.setOnClickListener(view -> {
-                    deleteQuestion(rowTextView.getText().toString());
-                    myLinearLayout.removeView(layout);
-                    for (int ii = 0; ii < quiz.getQuestions().size(); ii++) {
-                        if (quiz.getQuestions().get(ii).getQuestion().equals(rowTextView.getText().toString()))
-                        quiz.removeQuestion(quiz.getQuestions().get(ii));
+                    if (MainActivity.loggedInUser.equals(quiz.getUserid())) {
+                        deleteQuestion(rowTextView.getText().toString());
+                        myLinearLayout.removeView(layout);
+                        for (int ii = 0; ii < quiz.getQuestions().size(); ii++) {
+                            if (quiz.getQuestions().get(ii).getQuestion().equals(rowTextView.getText().toString()))
+                                quiz.removeQuestion(quiz.getQuestions().get(ii));
+                        }
+                        System.out.println(quiz.getQuestions());
+                    } else if (MainActivity.loggedInUser.equals("User")) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("You are not logged in!");
+                        builder.setPositiveButton("Log in", (dialog, which) -> {
+                            LoginFragment loginFragment = new LoginFragment();
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.nav_host_fragment, loginFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentManager.popBackStack();
+                            fragmentTransaction.commit();
+                        });
+                        builder.setNegativeButton("Cancel", (dialog, which) -> {
+                            dialog.cancel();
+                        });
+                        builder.show();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("You cannot modify quiz made by another user!");
+                        builder.setPositiveButton("Log in", (dialog, which) -> {
+                            LoginFragment loginFragment = new LoginFragment();
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.nav_host_fragment, loginFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentManager.popBackStack();
+                            fragmentTransaction.commit();
+                        });
+                        builder.setNegativeButton("Cancel", (dialog, which) -> {
+                            dialog.cancel();
+                        });
+                        builder.show();
                     }
-                    System.out.println(quiz.getQuestions());
-
-
                 });
 
                 layout.setOrientation(LinearLayout.HORIZONTAL);
-
                 // add the textview to the linearlayout
                 layout.addView(rowTextView);
                 layout.addView(deleteImage);
