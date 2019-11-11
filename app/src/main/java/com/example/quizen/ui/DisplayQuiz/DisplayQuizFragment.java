@@ -122,6 +122,9 @@ public class DisplayQuizFragment extends Fragment {
                     EditText rightAnswer = new EditText(getContext());
                     EditText answer2 = new EditText(getContext());
                     EditText answer3 = new EditText(getContext());
+                    rightAnswer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
+                    answer2.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
+                    answer3.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
                     theQuestion.setHint("Enter a question.");
                     theQuestion.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
                     rightAnswer.setHint("Enter the correct answer.");

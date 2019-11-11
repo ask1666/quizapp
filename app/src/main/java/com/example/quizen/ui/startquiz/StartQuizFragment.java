@@ -60,14 +60,14 @@ public class StartQuizFragment extends Fragment {
         answerList.add(answer2);
         answerList.add(answer3);
         Collections.shuffle(answerList);
-        answerList.get(0).setText(currentQuestion.getRightAnswer());
-        answerList.get(1).setText(currentQuestion.getAnswer2());
-        answerList.get(2).setText(currentQuestion.getAnswer3());
+        answerList.get(0).setText(currentQuestion.getRightAnswer() + " ");
+        answerList.get(1).setText(currentQuestion.getAnswer2() + " ");
+        answerList.get(2).setText(currentQuestion.getAnswer3() + " ");
         submitButton = root.findViewById(R.id.SubmitButton);
         nextQuestionButton = root.findViewById(R.id.NextQuestionButton);
         submitButton.setOnClickListener(view ->{
             for (int i = 0; i < answerList.size(); i++) {
-                if (answerList.get(i).getText().toString().equals(currentQuestion.getRightAnswer())) {
+                if (answerList.get(i).getText().toString().equals(currentQuestion.getRightAnswer() + " ")) {
                     answerList.get(i).setBackgroundColor(getResources().getColor(R.color.green));
                 }
                 answerList.get(i).setClickable(false);
@@ -115,9 +115,9 @@ public class StartQuizFragment extends Fragment {
         answerList.get(0).setChecked(false);
         answerList.get(1).setChecked(false);
         answerList.get(2).setChecked(false);
-        answerList.get(0).setText(nextQuestion.getRightAnswer());
-        answerList.get(1).setText(nextQuestion.getAnswer2());
-        answerList.get(2).setText(nextQuestion.getAnswer3());
+        answerList.get(0).setText(nextQuestion.getRightAnswer() + " ");
+        answerList.get(1).setText(nextQuestion.getAnswer2() + " ");
+        answerList.get(2).setText(nextQuestion.getAnswer3() + " ");
 
     }
 }

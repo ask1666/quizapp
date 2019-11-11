@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment {
         });
 
         createQuizBtn.setOnClickListener(view -> {
-            if (MainActivity.loggedInUser != null) {
+            if (!MainActivity.loggedInUser.equals("User")) {
                 CreateQuizFragment fragment = new CreateQuizFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
