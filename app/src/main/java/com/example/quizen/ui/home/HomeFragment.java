@@ -26,6 +26,7 @@ import com.example.quizen.ui.createquiz.CreateQuizFragment;
 import com.example.quizen.ui.createuser.CreateUserFragment;
 import com.example.quizen.ui.gallery.GalleryFragment;
 import com.example.quizen.ui.login.LoginFragment;
+import com.example.quizen.ui.myquizgallery.MyQuizGalleryFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         Button loginBtn = root.findViewById(R.id.LoginBtn);
         Button displayQuizBtn = root.findViewById(R.id.DisplayQuizBtn);
+        Button displayMyQuizesBtn = root.findViewById(R.id.DisplayMyQuizBtn);
         Button createQuizBtn = root.findViewById(R.id.CreateQuizBtn);
         Button createUserBtn = root.findViewById(R.id.CreateUserBtn);
         loginBtn.setOnClickListener(view -> {
@@ -50,6 +52,16 @@ public class HomeFragment extends Fragment {
 
         displayQuizBtn.setOnClickListener(view -> {
             GalleryFragment fragment = new GalleryFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentManager.popBackStack();
+            fragmentTransaction.commit();
+        });
+
+        displayMyQuizesBtn.setOnClickListener(view -> {
+            MyQuizGalleryFragment fragment = new MyQuizGalleryFragment();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.nav_host_fragment, fragment);

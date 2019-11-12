@@ -19,4 +19,6 @@
     <string name="createuser">Create User</string>
     <string name="displayquiz">Display Quiz</string>
     <string name="createquiz">Create Quiz</string>
+    <string name="displaymyquiz">Display my Quizes</string>
+
 </resources>
