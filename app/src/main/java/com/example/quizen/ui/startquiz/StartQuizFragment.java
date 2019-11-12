@@ -27,11 +27,12 @@ import com.example.quizen.ui.DisplayQuiz.DisplayQuizFragment;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class StartQuizFragment extends Fragment {
 
-    private StartQuizViewModel mViewModel;
     private Quiz quiz;
+    List<Question> finishedQuestions;
     TextView quizTitle;
     TextView question;
     Question currentQuestion;
@@ -47,7 +48,8 @@ public class StartQuizFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.start_quiz_fragment, container, false);
         quiz = DisplayQuizFragment.quiz;
-        currentQuestion = quiz.getQuestions().get(0);
+        finishedQuestions = new ArrayList<>();
+        currentQuestion = quiz.getQuestions().get(new Random().nextInt(quiz.getQuestions().size()));
         quizTitle = root.findViewById(R.id.StartQuizTitle);
         quizTitle.setText(quiz.getName());
         question = root.findViewById(R.id.QuestionTitle);
@@ -85,7 +87,7 @@ public class StartQuizFragment extends Fragment {
         return root;
     }
 
-    public void getNextQuestion(Question currentQuestion, View root) {
+    /*public void getNextQuestion(Question currentQuestion, View root) {
         Question nextQuestion = quiz.getQuestions().get(0);
         if (quiz.getQuestions().get(quiz.getQuestions().size() - 1) == currentQuestion) {
             DisplayQuizFragment displayQuizFragment = new DisplayQuizFragment();
@@ -119,5 +121,38 @@ public class StartQuizFragment extends Fragment {
         answerList.get(1).setText(nextQuestion.getAnswer2() + " ");
         answerList.get(2).setText(nextQuestion.getAnswer3() + " ");
 
+    }*/
+
+    public void getNextQuestion(Question currentQuestion, View root) {
+        Question nextQuestion = quiz.getQuestions().get(new Random().nextInt(quiz.getQuestions().size()));
+        finishedQuestions.add(currentQuestion);
+        if (finishedQuestions.size() == quiz.getQuestions().size()) {
+            DisplayQuizFragment displayQuizFragment = new DisplayQuizFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.nav_host_fragment, displayQuizFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        } else while (finishedQuestions.contains(nextQuestion)) {
+            nextQuestion = quiz.getQuestions().get(new Random().nextInt(quiz.getQuestions().size()));
+        }
+        quiz = DisplayQuizFragment.quiz;
+        this.currentQuestion = nextQuestion;
+        quizTitle.setText(quiz.getName());
+        question.setText(nextQuestion.getQuestion());
+        answerList = new ArrayList<>();
+        answerList.add(answer1);
+        answerList.add(answer2);
+        answerList.add(answer3);
+        Collections.shuffle(answerList);
+        answerList.get(0).setClickable(true);
+        answerList.get(1).setClickable(true);
+        answerList.get(2).setClickable(true);
+        answerList.get(0).setChecked(false);
+        answerList.get(1).setChecked(false);
+        answerList.get(2).setChecked(false);
+        answerList.get(0).setText(nextQuestion.getRightAnswer() + " ");
+        answerList.get(1).setText(nextQuestion.getAnswer2() + " ");
+        answerList.get(2).setText(nextQuestion.getAnswer3() + " ");
     }
 }
