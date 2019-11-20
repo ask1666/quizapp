@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.quizen.MainActivity;
 import com.example.quizen.R;
+import com.example.quizen.ui.DisplayQuiz.DisplayQuizFragment;
 import com.example.quizen.ui.createuser.CreateUserFragment;
 import com.example.quizen.ui.gallery.GalleryViewModel;
 import com.example.quizen.ui.home.HomeFragment;
@@ -59,7 +61,6 @@ public class CreateQuizFragment extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
-                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });

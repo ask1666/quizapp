@@ -56,6 +56,7 @@ public class Quiz {
         this.questions = questions;
     }
 
+
     public String getName() {
         return name;
     }
