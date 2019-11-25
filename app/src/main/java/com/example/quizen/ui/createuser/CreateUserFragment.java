@@ -35,10 +35,10 @@ import javax.xml.transform.Result;
 
 public class CreateUserFragment extends Fragment {
 
-    private CreateUserViewModel createUserViewModel;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        createUserViewModel = ViewModelProviders.of(this).get(CreateUserViewModel.class);
+        CreateUserViewModel createUserViewModel = ViewModelProviders.of(this).get(CreateUserViewModel.class);
         View root = inflater.inflate(R.layout.fragment_createuser, container, false);
 
         Button createButton = root.findViewById(R.id.createuserBtn);
@@ -68,7 +68,7 @@ public class CreateUserFragment extends Fragment {
         return root;
     }
 
-    public void createUser(EditText usernameInput, EditText passwordInput) {
+    private void createUser(EditText usernameInput, EditText passwordInput) {
         final String username = usernameInput.getText().toString();
         final String password = passwordInput.getText().toString();
         RequestQueue queue = Volley.newRequestQueue(this.getContext());

@@ -66,20 +66,17 @@ import java.util.Map;
 public class DisplayQuizFragment extends Fragment {
 
     private DisplayQuizViewModel mViewModel;
-    GalleryViewModel galleryViewModel;
+    private GalleryViewModel galleryViewModel;
     public static Quiz quiz;
     public static String quizTitlee;
-    private List<Quiz> quizList;
-    TextView quizTitle;
-    LinearLayout myLinearLayout;
-    Button addQuestionButton;
-    Button startButton;
+    private LinearLayout myLinearLayout;
+    private Button startButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_displayquiz, container, false);
         galleryViewModel = ViewModelProviders.of(this.getActivity()).get(GalleryViewModel.class);
-        quizList = galleryViewModel.getQuizList().getValue();
+        List<Quiz> quizList = galleryViewModel.getQuizList().getValue();
         System.out.println(quizList);
         if (quizList != null) {
             for (int i = 0; i < quizList.size(); i++) {
@@ -89,9 +86,9 @@ public class DisplayQuizFragment extends Fragment {
                 }
             }
         }
-        quizTitle = root.findViewById(R.id.DisplayQuizTitle);
+        TextView quizTitle = root.findViewById(R.id.DisplayQuizTitle);
         myLinearLayout = root.findViewById(R.id.myLinearLayout);
-        addQuestionButton = root.findViewById(R.id.CreateQuestionButton);
+        Button addQuestionButton = root.findViewById(R.id.CreateQuestionButton);
         startButton = root.findViewById(R.id.StartQuizButton);
         quizTitle.setText(quizTitlee);
         addQuestionButton.setOnClickListener(view -> {
@@ -192,7 +189,7 @@ public class DisplayQuizFragment extends Fragment {
 
    // }
 
-    public void updateLayout() {
+    private void updateLayout() {
         myLinearLayout.removeAllViews();
 
         if (quiz.getQuestions() != null) {
@@ -285,7 +282,7 @@ public class DisplayQuizFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void addQuestion(Question question) {
+    private void addQuestion(Question question) {
         String quiz1 = quiz.getName();
         new AsyncTask<Void, Void, String>() {
             HttpURLConnection c = null;
@@ -327,7 +324,7 @@ public class DisplayQuizFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void deleteQuestion (String question) {
+    private void deleteQuestion (String question) {
         new AsyncTask<Void, Void, String>() {
             HttpURLConnection c = null;
             @Override

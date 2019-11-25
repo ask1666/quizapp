@@ -44,10 +44,10 @@ import javax.xml.transform.Result;
 
 public class CreateQuizFragment extends Fragment {
 
-    private CreateQuizViewModel createQuizViewModel;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        createQuizViewModel = ViewModelProviders.of(this).get(CreateQuizViewModel.class);
+        CreateQuizViewModel createQuizViewModel = ViewModelProviders.of(this).get(CreateQuizViewModel.class);
         View root = inflater.inflate(R.layout.fragment_createquiz, container, false);
         Button cancelButton = root.findViewById(R.id.CreateQuizCancelBtn);
         Button createButton = root.findViewById(R.id.CreateQuizButton);
@@ -81,7 +81,7 @@ public class CreateQuizFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void createQuiz(final String quizTitle, String loggedInUser) {
+    private void createQuiz(final String quizTitle, String loggedInUser) {
 
         new AsyncTask<Void, Void, String>() {
             HttpURLConnection c = null;

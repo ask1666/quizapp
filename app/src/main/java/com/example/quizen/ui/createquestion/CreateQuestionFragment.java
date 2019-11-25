@@ -21,11 +21,11 @@ import com.example.quizen.ui.home.HomeFragment;
 
 public class CreateQuestionFragment extends Fragment {
 
-    private CreateQuestionViewModel createQuestionViewModel;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        createQuestionViewModel = ViewModelProviders.of(this).get(CreateQuestionViewModel.class);
+        CreateQuestionViewModel createQuestionViewModel = ViewModelProviders.of(this).get(CreateQuestionViewModel.class);
         View root = inflater.inflate(R.layout.fragment_createquestion, container, false);
 
         Button addQuestionButton = root.findViewById(R.id.AddQuestionButton);
@@ -38,7 +38,6 @@ public class CreateQuestionFragment extends Fragment {
         addQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createQuestion();
                 Fragment fragment = new HomeFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -63,8 +62,6 @@ public class CreateQuestionFragment extends Fragment {
         return root;
     }
 
-    public void createQuestion() {
 
-    }
 
 }

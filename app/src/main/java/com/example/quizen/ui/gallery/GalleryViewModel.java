@@ -34,11 +34,11 @@ import static java.security.AccessController.getContext;
 
 public class GalleryViewModel extends AndroidViewModel {
 
-    MutableLiveData<List<Quiz>> quizList = new MutableLiveData<>();
-    MutableLiveData<Quiz> selected = new MutableLiveData<>();
+    private MutableLiveData<List<Quiz>> quizList = new MutableLiveData<>();
+    private MutableLiveData<Quiz> selected = new MutableLiveData<>();
     public static Boolean  dataChanged = false;
 
-    RequestQueue requestQueue;
+    private RequestQueue requestQueue;
 
     public GalleryViewModel(Application context) {
         super(context);
@@ -105,7 +105,7 @@ public class GalleryViewModel extends AndroidViewModel {
         this.selected.setValue(selected);
     }
 
-    public void loadQuiz() {
+    private void loadQuiz() {
 
         String url = "http://15.188.88.253:8080/api/quizapp/getallquiz";
         JsonArrayRequest jar = new JsonArrayRequest(Request.Method.GET,url,null,

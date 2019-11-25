@@ -48,12 +48,11 @@ import javax.xml.transform.Result;
 
 public class LoginFragment extends Fragment {
 
-    private LoginViewModel loginViewModel;
     private EditText usernameInput;
     private EditText passwordInput;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        LoginViewModel loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         View root = inflater.inflate(R.layout.fragment_login, container, false);
         Button loginButton = root.findViewById(R.id.loginBtn);
         Button createUserButton = root.findViewById(R.id.loginCreateuserBtn);

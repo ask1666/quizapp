@@ -32,16 +32,14 @@ import java.util.Random;
 public class StartQuizFragment extends Fragment {
 
     private Quiz quiz;
-    List<Question> finishedQuestions;
-    TextView quizTitle;
-    TextView question;
-    Question currentQuestion;
-    CheckBox answer1;
-    CheckBox answer2;
-    CheckBox answer3;
-    List<CheckBox> answerList;
-    Button submitButton;
-    Button nextQuestionButton;
+    private List<Question> finishedQuestions;
+    private TextView quizTitle;
+    private TextView question;
+    private Question currentQuestion;
+    private CheckBox answer1;
+    private CheckBox answer2;
+    private CheckBox answer3;
+    private List<CheckBox> answerList;
 
 
     @Override
@@ -65,8 +63,8 @@ public class StartQuizFragment extends Fragment {
         answerList.get(0).setText(currentQuestion.getRightAnswer() + " ");
         answerList.get(1).setText(currentQuestion.getAnswer2() + " ");
         answerList.get(2).setText(currentQuestion.getAnswer3() + " ");
-        submitButton = root.findViewById(R.id.SubmitButton);
-        nextQuestionButton = root.findViewById(R.id.NextQuestionButton);
+        Button submitButton = root.findViewById(R.id.SubmitButton);
+        Button nextQuestionButton = root.findViewById(R.id.NextQuestionButton);
         submitButton.setOnClickListener(view ->{
             for (int i = 0; i < answerList.size(); i++) {
                 if (answerList.get(i).getText().toString().equals(currentQuestion.getRightAnswer() + " ")) {
@@ -88,7 +86,7 @@ public class StartQuizFragment extends Fragment {
     }
 
 
-    public void getNextQuestion(Question currentQuestion, View root) {
+    private void getNextQuestion(Question currentQuestion, View root) {
         Question nextQuestion = quiz.getQuestions().get(new Random().nextInt(quiz.getQuestions().size()));
         finishedQuestions.add(currentQuestion);
         if (finishedQuestions.size() == quiz.getQuestions().size()) {

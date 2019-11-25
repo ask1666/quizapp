@@ -31,9 +31,8 @@ import java.util.List;
 public class QuizRecyclerViewAdapter extends RecyclerView.Adapter<QuizRecyclerViewAdapter.ViewHolder> {
 
     private List<Quiz> mData;
-    GalleryViewModel model;
-    DisplayQuizViewModel displayModel;
-    DisplayQuizFragment displayQuizFragment;
+    private GalleryViewModel model;
+    private DisplayQuizFragment displayQuizFragment;
 
 
     public QuizRecyclerViewAdapter(List<Quiz> items) {
@@ -92,10 +91,10 @@ public class QuizRecyclerViewAdapter extends RecyclerView.Adapter<QuizRecyclerVi
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder  {
-        public final TextView quizTitle;
-        public final ImageView image;
+        final TextView quizTitle;
+        final ImageView image;
         public Quiz quiz;
-        public Context context;
+        Context context;
 
         ViewHolder(View itemView) {
             super(itemView);

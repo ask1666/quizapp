@@ -36,14 +36,13 @@ import java.util.List;
 
 public class GalleryFragment extends Fragment {
 
-    private static GalleryViewModel model;
     private static RecyclerView recyclerView;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_gallery, container, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        model = ViewModelProviders.of(this.getActivity()).get(GalleryViewModel.class);
+        GalleryViewModel model = ViewModelProviders.of(this.getActivity()).get(GalleryViewModel.class);
 
         model.getQuizList().observe(getViewLifecycleOwner(), quiz -> {
             recyclerView.setAdapter(new QuizRecyclerViewAdapter(quiz));
