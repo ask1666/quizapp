@@ -87,41 +87,6 @@ public class StartQuizFragment extends Fragment {
         return root;
     }
 
-    /*public void getNextQuestion(Question currentQuestion, View root) {
-        Question nextQuestion = quiz.getQuestions().get(0);
-        if (quiz.getQuestions().get(quiz.getQuestions().size() - 1) == currentQuestion) {
-            DisplayQuizFragment displayQuizFragment = new DisplayQuizFragment();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.nav_host_fragment, displayQuizFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        }
-        for (int i=0; i<quiz.getQuestions().size(); i++) {
-            if ((quiz.getQuestions().get(i) == currentQuestion) && (quiz.getQuestions().get(quiz.getQuestions().size()-1) != currentQuestion)) {
-                nextQuestion = quiz.getQuestions().get(i+1);
-            }
-        }
-        quiz = DisplayQuizFragment.quiz;
-        this.currentQuestion = nextQuestion;
-        quizTitle.setText(quiz.getName());
-        question.setText(nextQuestion.getQuestion());
-        answerList = new ArrayList<>();
-        answerList.add(answer1);
-        answerList.add(answer2);
-        answerList.add(answer3);
-        Collections.shuffle(answerList);
-        answerList.get(0).setClickable(true);
-        answerList.get(1).setClickable(true);
-        answerList.get(2).setClickable(true);
-        answerList.get(0).setChecked(false);
-        answerList.get(1).setChecked(false);
-        answerList.get(2).setChecked(false);
-        answerList.get(0).setText(nextQuestion.getRightAnswer() + " ");
-        answerList.get(1).setText(nextQuestion.getAnswer2() + " ");
-        answerList.get(2).setText(nextQuestion.getAnswer3() + " ");
-
-    }*/
 
     public void getNextQuestion(Question currentQuestion, View root) {
         Question nextQuestion = quiz.getQuestions().get(new Random().nextInt(quiz.getQuestions().size()));

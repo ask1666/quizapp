@@ -65,7 +65,7 @@ public class GalleryViewModel extends AndroidViewModel {
 
                 {
 
-                    URL url = new URL("http://158.38.101.126:8080/api/quizapp/deletequiz?name=" + quizTitle);
+                    URL url = new URL("http://15.188.88.253:8080/api/quizapp/deletequiz?name=" + quizTitle);
                     c = (HttpURLConnection) url.openConnection();
                     c.setUseCaches(true);
                     c.setRequestMethod("DELETE");
@@ -107,7 +107,7 @@ public class GalleryViewModel extends AndroidViewModel {
 
     public void loadQuiz() {
 
-        String url = "http://158.38.101.126:8080/api/quizapp/getallquiz";
+        String url = "http://15.188.88.253:8080/api/quizapp/getallquiz";
         JsonArrayRequest jar = new JsonArrayRequest(Request.Method.GET,url,null,
                 response -> {
                     List<Quiz> Quizes = new ArrayList<>();
