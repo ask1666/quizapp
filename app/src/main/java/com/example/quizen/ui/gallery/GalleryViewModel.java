@@ -54,6 +54,10 @@ public class GalleryViewModel extends AndroidViewModel {
         return quizList;
     }
 
+    /**
+     * Deletes quiz from database.
+     * @param quizTitle Title of the quiz.
+     */
     @SuppressLint("StaticFieldLeak")
     public void deleteItem(String quizTitle) {
 
@@ -104,6 +108,10 @@ public class GalleryViewModel extends AndroidViewModel {
     public void setSelected(Quiz selected) {
         this.selected.setValue(selected);
     }
+
+    /**
+     * Gets list of all quiz from database.
+     */
 
     private void loadQuiz() {
 

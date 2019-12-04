@@ -43,7 +43,7 @@ public class GalleryFragment extends Fragment {
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_gallery, container, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         GalleryViewModel model = ViewModelProviders.of(this.getActivity()).get(GalleryViewModel.class);
-
+        // Display list of quiz from database in recycler view.
         model.getQuizList().observe(getViewLifecycleOwner(), quiz -> {
             recyclerView.setAdapter(new QuizRecyclerViewAdapter(quiz));
 

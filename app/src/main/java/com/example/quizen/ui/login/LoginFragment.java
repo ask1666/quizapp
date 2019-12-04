@@ -83,6 +83,11 @@ public class LoginFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Check credentials with database and log in.
+     * @param usernameInput Username
+     * @param passwordInput Password
+     */
     public void login(EditText usernameInput, EditText passwordInput) {
         final String username = usernameInput.getText().toString();
         final String password = passwordInput.getText().toString();

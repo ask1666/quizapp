@@ -92,7 +92,8 @@ public class DisplayQuizFragment extends Fragment {
         startButton = root.findViewById(R.id.StartQuizButton);
         quizTitle.setText(quizTitlee);
         addQuestionButton.setOnClickListener(view -> {
-            if (!MainActivity.loggedInUser.equals("User")) {
+            if (!MainActivity.loggedInUser.equals("User")) { // If you are logged in.
+                // If you are not the creator of this quiz pop an alert.
                 if (!MainActivity.loggedInUser.equals(quiz.getUserid())) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("You cannot modify quiz made by another user!");
@@ -109,6 +110,7 @@ public class DisplayQuizFragment extends Fragment {
                         dialog.cancel();
                     });
                     builder.show();
+                    // If you are the creator of this quiz, open add question layout.
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("Add Question");
@@ -148,6 +150,7 @@ public class DisplayQuizFragment extends Fragment {
 
                     builder.show();
                 }
+                // If you are not logged in pop an alert.
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("You need to log in to do that!");
@@ -166,7 +169,7 @@ public class DisplayQuizFragment extends Fragment {
                 builder.show();
             }
         });
-
+        // change fragment to startquiz Fragment.
         startButton.setOnClickListener(view -> {
             StartQuizFragment startQuizFragment = new StartQuizFragment();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -184,18 +187,17 @@ public class DisplayQuizFragment extends Fragment {
         return root;
     }
 
-    //public void setSelectedQuiz(Quiz quiz) {
-     //   this.quiz = quiz;
 
-   // }
-
+    /*
+    * Refresh the layout of quiz's
+    */
     private void updateLayout() {
         myLinearLayout.removeAllViews();
 
         if (quiz.getQuestions() != null) {
             final TextView[] myTextViews = new TextView[quiz.getQuestions().size()]; // create an empty array;
             for (int i = 0; i < quiz.getQuestions().size(); i++) {
-                // create a new textview
+                // creates layout of quiz's iterating vertically
                 final LinearLayout layout = new LinearLayout(getContext());
                 ImageView deleteImage = new ImageView(getContext());
                 final TextView rowTextView = new TextView(getContext());
@@ -211,7 +213,6 @@ public class DisplayQuizFragment extends Fragment {
 
                 rowTextView.setText(quiz.getQuestions().get(i).getQuestion());
                 rowTextView.setWidth(280 * ( getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
-                //rowTextView.setHeight(50 * ( getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
                 rowTextView.setBackgroundColor(getResources().getColor(R.color.black));
                 rowTextView.setTextColor(getResources().getColor(R.color.white));
                 rowTextView.setTextSize(24);
@@ -224,7 +225,7 @@ public class DisplayQuizFragment extends Fragment {
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
                 layoutParams.setMargins(100, 50, 30, 0);
-
+                // Deletes quiz on this row
                 deleteImage.setOnClickListener(view -> {
                     if (MainActivity.loggedInUser.equals(quiz.getUserid())) {
                         deleteQuestion(rowTextView.getText().toString());
@@ -234,6 +235,7 @@ public class DisplayQuizFragment extends Fragment {
                                 quiz.removeQuestion(quiz.getQuestions().get(ii));
                         }
                         System.out.println(quiz.getQuestions());
+                        // Checks if you are logged in. If you are not logged in, it will pop an alert.
                     } else if (MainActivity.loggedInUser.equals("User")) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("You are not logged in!");
@@ -250,6 +252,7 @@ public class DisplayQuizFragment extends Fragment {
                             dialog.cancel();
                         });
                         builder.show();
+                        // Checks if the user logged in is the user that created the quiz. If this is not the case, it will pop an alert.
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("You cannot modify quiz made by another user!");
@@ -270,17 +273,20 @@ public class DisplayQuizFragment extends Fragment {
                 });
 
                 layout.setOrientation(LinearLayout.HORIZONTAL);
-                // add the textview to the linearlayout
                 layout.addView(rowTextView);
                 layout.addView(deleteImage);
                 myLinearLayout.addView(layout, layoutParams);
 
-                // save a reference to the textview for later
                 myTextViews[i] = rowTextView;
             }
         }
     }
 
+
+    /**
+     * Adds the question to database and ties it to the currently selected quiz.
+     * @param question
+     */
     @SuppressLint("StaticFieldLeak")
     private void addQuestion(Question question) {
         String quiz1 = quiz.getName();
@@ -322,6 +328,11 @@ public class DisplayQuizFragment extends Fragment {
 
 
     }
+
+    /**
+     * Deletes a question from the database.
+     * @param question
+     */
 
     @SuppressLint("StaticFieldLeak")
     private void deleteQuestion (String question) {

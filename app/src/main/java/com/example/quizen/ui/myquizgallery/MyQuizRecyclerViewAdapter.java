@@ -67,6 +67,7 @@ public void onBindViewHolder(ViewHolder holder, int position) {
             }
         });
         holder.quizTitle.setOnClickListener(view -> {
+            // change fragment to Display quiz fragment and displays quiz clicked on.
             displayQuizFragment = new DisplayQuizFragment();
             displayQuizFragment.quizTitlee = holder.quizTitle.getText().toString();
             AppCompatActivity activity = (AppCompatActivity) view.getContext();

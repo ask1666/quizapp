@@ -80,6 +80,11 @@ public class CreateQuizFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Creates quiz in database.
+     * @param quizTitle Title of quiz
+     * @param loggedInUser User currently logged in
+     */
     @SuppressLint("StaticFieldLeak")
     private void createQuiz(final String quizTitle, String loggedInUser) {
 
@@ -103,12 +108,12 @@ public class CreateQuizFragment extends Fragment {
                         return "Success";
                     }
                     System.err.println(c.getResponseCode());
-                    return "Error logging in " + c.getResponseMessage();
+                    return "Error creating quiz " + c.getResponseMessage();
 
 
                 } catch(Exception e){
                     System.err.println("Failed to call " + e);
-                    return new IOException("Error logging in", e).toString();
+                    return new IOException("Error creating quiz ", e).toString();
                 } finally{
                     if (c != null) c.disconnect();
                 }

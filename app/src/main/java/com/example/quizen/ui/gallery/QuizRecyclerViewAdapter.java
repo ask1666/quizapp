@@ -67,6 +67,7 @@ public class QuizRecyclerViewAdapter extends RecyclerView.Adapter<QuizRecyclerVi
                 builder.show();
             }
         });
+        // When you click on the quiz, you change the fragment to displayQuizFragment and displays the quiz clicked on.
         holder.quizTitle.setOnClickListener( view -> {
             displayQuizFragment = new DisplayQuizFragment();
             displayQuizFragment.quizTitlee = holder.quizTitle.getText().toString();

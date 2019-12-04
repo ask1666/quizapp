@@ -47,6 +47,7 @@ public class StartQuizFragment extends Fragment {
         View root = inflater.inflate(R.layout.start_quiz_fragment, container, false);
         quiz = DisplayQuizFragment.quiz;
         finishedQuestions = new ArrayList<>();
+        // pass currentQuestion a random question from the quiz
         currentQuestion = quiz.getQuestions().get(new Random().nextInt(quiz.getQuestions().size()));
         quizTitle = root.findViewById(R.id.StartQuizTitle);
         quizTitle.setText(quiz.getName());
@@ -85,7 +86,11 @@ public class StartQuizFragment extends Fragment {
         return root;
     }
 
-
+    /**
+     * Gets next question
+     * @param currentQuestion Question currently displayed
+     * @param root The layout inflated
+     */
     private void getNextQuestion(Question currentQuestion, View root) {
         Question nextQuestion = quiz.getQuestions().get(new Random().nextInt(quiz.getQuestions().size()));
         finishedQuestions.add(currentQuestion);
@@ -107,6 +112,7 @@ public class StartQuizFragment extends Fragment {
         answerList.add(answer1);
         answerList.add(answer2);
         answerList.add(answer3);
+        // Randomizes the order of which the answers are displayed.
         Collections.shuffle(answerList);
         answerList.get(0).setClickable(true);
         answerList.get(1).setClickable(true);
