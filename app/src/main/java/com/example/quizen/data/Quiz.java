@@ -34,7 +34,6 @@ public class Quiz {
                 this.questions.add(new Question(questions.getJSONObject(i)));
 
             }
-            System.out.println(this.questions);
         }
 
     }

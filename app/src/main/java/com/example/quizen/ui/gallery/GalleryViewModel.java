@@ -48,7 +48,6 @@ public class GalleryViewModel extends AndroidViewModel {
     public LiveData<List<Quiz>> getQuizList() {
 
         loadQuiz();
-        System.out.println("GalleryViewModel = " + quizList.getValue());
 
 
         return quizList;
