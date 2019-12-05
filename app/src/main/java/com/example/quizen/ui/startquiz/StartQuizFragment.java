@@ -87,7 +87,7 @@ public class StartQuizFragment extends Fragment {
     }
 
     /**
-     * Gets next question
+     * Displays next question (randomly)
      * @param currentQuestion Question currently displayed
      * @param root The layout inflated
      */
